@@ -1,0 +1,3 @@
+Problem 1 Solution:
+I was realizing my grid was printing the same index for an entire row, so I double-checked both functions and I realized
+my print function was printing array[i] instead of array[i*n+j].

@@ -28,7 +28,7 @@ void printForest(int array[], int n) {
     for (int i = 0; i < n; i++) {
         cout << "|";
         for (int j = 0; j < n; j++) {
-            cout << array[i] << " ";
+            cout << array[i*n+j] << " ";
         }
         cout << "|" << endl;
     }
