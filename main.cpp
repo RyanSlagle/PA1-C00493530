@@ -4,6 +4,7 @@
 using namespace std;
 
 void initializeForest(int array[], int n, int pFireCell) {
+
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             if (rand() % 100 < 80) {
@@ -11,6 +12,10 @@ void initializeForest(int array[], int n, int pFireCell) {
             }
             else {
                 array[i*n + j] = 0;
+            }
+
+            if (rand() % 100 < pFireCell && array[i*n + j] == 1) {
+                array[i*n+j] = 2; //Tree Cell is a fire cell instead
             }
         }
 
@@ -24,12 +29,28 @@ void initializeForest(int array[], int n, int pFireCell) {
  * @param n an int that represents the grid size
  */
 void printForest(int array[], int n) {
-
+    //loop through array
     for (int i = 0; i < n; i++) {
+        //beginning of row place a bar
         cout << "|";
         for (int j = 0; j < n; j++) {
-            cout << array[i*n+j] << " ";
+            //choose the index's corresponding visual
+            switch (array[i*n + j]) {
+                case 0:
+                    cout << "   ";
+                    break;
+                case 1:
+                    cout << " T ";
+                    break;
+                case 2:
+                    cout << " ~ ";
+                    break;
+                case 3:
+                    cout << " # ";
+                    break;
+            }
         }
+        //end of row place a bar
         cout << "|" << endl;
     }
 }
