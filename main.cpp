@@ -113,6 +113,19 @@ void spreadFire(int*& array, int n, int pfireSpread) {
     array = updatedForest;
 }
 
+bool continueSimulation(const int* array, int n) {
+    bool isProblem = false;
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (array[i*n + j] == 2 || array[i*n + j] == 3) {
+                isProblem = true;
+            }
+        }
+    }
+    return isProblem;
+}
+
 
 int main() {
     //initialize the forest (─‿‿─)
@@ -135,11 +148,13 @@ int main() {
     initializeForest(forestGrid,n,fireProb);
     printForest(forestGrid,n);
 
-    spreadFire(forestGrid,n,spreadProb);
-    printForest(forestGrid,n);
+    do {
+        spreadFire(forestGrid,n,spreadProb);
+        printForest(forestGrid,n);
+    }
+    while (continueSimulation(forestGrid,n));
 
-    //Next have a while loop based on continueSimulation bool
-    //Inside the while loop will be the spreadFire function being checked by continueSimulation
+
 
 
     delete[] forestGrid; // no leakage (─‿‿─)

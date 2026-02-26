@@ -11,3 +11,6 @@ Problem 3 Solution:
 technically a part of problem 2, but I did not add a tree initialization at the beginning of the loop
 I originally added it after which was problematic because if it was determined to be neighboring
 a fire cell, I just reset it back to a tree cell. So I placed my tree initialization before the loop.
+
+Problem 4 Solution:
+I had to dereference the array in order to use the binary operator ==.
