@@ -36,6 +36,11 @@ void initializeForest(int array[], int n, int pFireCell) {
  * @param n an int that represents the grid size
  */
 void printForest(int array[], int n) {
+    //dashes
+    for (int x = 0; x < 3*n+2; x++) {
+        cout << "-";
+    }
+    cout << endl;
     //loop through array
     for (int i = 0; i < n; i++) {
         //beginning of row place a bar
@@ -59,6 +64,10 @@ void printForest(int array[], int n) {
         }
         //end of row place a bar
         cout << "|" << endl;
+    }
+    //dashes
+    for (int x = 0; x < 3*n+2; x++) {
+        cout << "-";
     }
     cout << endl;
 }
@@ -113,6 +122,13 @@ void spreadFire(int*& array, int n, int pfireSpread) {
     array = updatedForest;
 }
 
+/** continueSimulation
+ * this function returns a boolean on whether or not the passed array contains index 2 or 3 (fire or ash) and if so
+ * returns true.
+ * @param array forestGrid
+ * @param n size of grid
+ * @return
+ */
 bool continueSimulation(const int* array, int n) {
     bool isProblem = false;
 
