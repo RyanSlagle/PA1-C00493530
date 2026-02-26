@@ -3,19 +3,26 @@
 #include <string>
 using namespace std;
 
+/** initializeForest
+ * this function sets up each cell of our created grid given it's size (n)
+ * and the probability a tree cell starts off on fire (pFireCell)
+ * @param array grid (forest)
+ * @param n grid (forest) size
+ * @param pFireCell fire cell probability int
+ */
 void initializeForest(int array[], int n, int pFireCell) {
 
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             if (rand() % 100 < 80) {
-                array[i*n + j] = 1;
+                array[i*n + j] = 1; //Tree Cell
             }
             else {
-                array[i*n + j] = 0;
+                array[i*n + j] = 0; //Empty Cell
             }
 
             if (rand() % 100 < pFireCell && array[i*n + j] == 1) {
-                array[i*n+j] = 2; //Tree Cell is a fire cell instead
+                array[i*n+j] = 2; //Tree Cell -> fire cell instead
             }
         }
 
@@ -53,10 +60,63 @@ void printForest(int array[], int n) {
         //end of row place a bar
         cout << "|" << endl;
     }
+    cout << endl;
 }
 
+/** spreadFire
+ * this function simulates the spreading of the forest fire at each fire cell for every iteration.
+ * @param array
+ * @param n
+ * @param pfireSpread
+ */
+void spreadFire(int*& array, int n, int pfireSpread) {
+    int* updatedForest = new int[n*n];
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+
+            if (array[i*n + j] == 0) {
+                //Empty remains empty
+                updatedForest[i*n + j] = 0;
+            }
+            else if(array[i*n + j] == 1) {
+                //before we check just assign it back to a tree
+                updatedForest[i*n + j] = 1;
+                //Tree Cell to check for neighboring fire cells
+                for (int row = -1; row <= 1; row++) {
+                    for (int col = -1; col <= 1; col++) {
+                        //this is the original cell anyways
+                        if (row == 0 && col == 0) continue;
+                        //border if the i+row or j+col is 0 or the size of n
+                        if (i+row >= 0 && i+row < n && j+col >= 0 && j+col < n) {
+                            //if cell is fire
+                            if (array[(i+row)*n + (j+col)] == 2) {
+                                //update it
+                                updatedForest[i*n + j] = 2;
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else if (array[i*n + j] == 2) {
+                // Fire cell to become Ash cell
+                updatedForest[i*n + j] = 3;
+            } else {
+                // Ash cell to empty cell
+                updatedForest[i*n + j] = 0;
+            }
+
+        }
+    }
+
+    delete[] array;
+    array = updatedForest;
+}
+
+
 int main() {
-    //initialize the forest
+    //initialize the forest (─‿‿─)
+    //-----------------------------------------------------------------------------------
     int n;
     cout << "Enter size of grid (an integer in range [10,30]: " << endl;
     cin >> n;
@@ -65,16 +125,22 @@ int main() {
     cout << "Enter probability of fire (an integer in range [10,90]: " << endl;
     cin >> fireProb;
 
-    /*int spreadProb;
+    int spreadProb;
     cout << "Enter probability of fire spread (an integer in range [25,100]: " << endl;
-    cin >> spreadProb;*/
+    cin >> spreadProb;
+    //-----------------------------------------------------------------------------------
 
     int* forestGrid = new int[n*n];
 
     initializeForest(forestGrid,n,fireProb);
     printForest(forestGrid,n);
 
+    spreadFire(forestGrid,n,spreadProb);
+    printForest(forestGrid,n);
+
+    //Next have a while loop based on continueSimulation bool
+    //Inside the while loop will be the spreadFire function being checked by continueSimulation
 
 
-    delete[] forestGrid; // no leakage
+    delete[] forestGrid; // no leakage (─‿‿─)
 }
